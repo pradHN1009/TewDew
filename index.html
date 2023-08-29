@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>TewDew</title>
+</head>
+<script>
+    function onPress() {
+        fetch('http:localhost:3000/todos', {
+            method: "POST"
+        }).then(response => {
+            return response.json()
+        }).then(data => {
+            alert(data);
+        })
+    }
+</script>
+
+<body>
+    <div class="container">
+        <h1>TewDew</h1>
+        <input type="text" placeholder="Enter your Title here">
+        <input type="text" placeholder="Enter your Description">
+        <button onclick="onPress()">Submit</button>
+    </div>
+</body>
+
+</html>
