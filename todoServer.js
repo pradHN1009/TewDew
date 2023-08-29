@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const fs = require("fs");
+const path = require("path");
 const port = 3000;
 
 const app = express();
@@ -8,6 +9,7 @@ const app = express();
 let todosList = [];
 
 app.use(bodyParser.json());
+app.use(express.static(__dirname));
 
 app.get("/todos", (req, res) => {
     fs.readFile("todos.json", "utf-8", (err, data) => {
@@ -126,6 +128,10 @@ app.delete("/todos/:id", (req, res) => {
             }
         }
     })
+})
+
+app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, "index.html"));
 })
 
 app.get("*", (req, res) => {

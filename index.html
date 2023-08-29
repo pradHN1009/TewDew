@@ -9,12 +9,12 @@
 </head>
 <script>
     function onPress() {
-        fetch('http:localhost:3000/todos', {
-            method: "POST"
+        fetch('http://localhost:3000/todos', {
+            method: "GET"
         }).then(response => {
             return response.json()
         }).then(data => {
-            alert(data);
+            console.log(data);
         })
     }
 </script>
