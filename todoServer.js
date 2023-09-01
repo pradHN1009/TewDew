@@ -67,7 +67,7 @@ app.post("/todos", (req, res) => {
                     console.log("error writing to file");
                     res.status(401).send();
                 } else {
-                    res.status(201).send(`Created with id : ${uniqueId}`)
+                    res.status(201).send(JSON.stringify(todos))
                 }
             })
         }

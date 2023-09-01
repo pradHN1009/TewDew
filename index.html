@@ -9,22 +9,66 @@
 </head>
 <script>
     function onPress() {
-        fetch('http://localhost:3000/todos', {
+        let title = document.getElementById("title").value;
+        let description = document.getElementById("description").value;
+        if (title != "" && description != "") {
+            fetch('http://localhost:3000/todos', {
+                method: "POST",
+                body: JSON.stringify({
+                    title: title,
+                    completed: false,
+                    description: description
+                }),
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            }).then(response => {
+                return response.json();
+            }).then(data => {
+                console.log(data);
+                getTodos().then(displayTodos);;
+            })
+
+        } else {
+            alert("Enter a TewDew to submit!")
+        }
+
+    }
+    async function getTodos() {
+
+        let response = await fetch('http://localhost:3000/todos', {
             method: "GET"
-        }).then(response => {
-            return response.json()
-        }).then(data => {
-            console.log(data);
+        })
+        let todos = await response.json();
+        return todos;
+    }
+    const displayTodos = todos => {
+        let parentElement = document.getElementById("todoList")
+        parentElement.innerHTML = ""
+        todos.forEach(todo => {
+            let titleText = todo.title;
+            let descriptionText = todo.description;
+            let todoItem = document.createElement("div");
+            let todoTitle = document.createElement("p");
+            let todoDescription = document.createElement("p");
+            todoTitle.innerText = titleText;
+            todoDescription.innerText = descriptionText;
+            todoItem.append(todoTitle);
+            todoItem.append(todoDescription);
+            parentElement.append(todoItem);
         })
     }
+    getTodos().then(displayTodos);
 </script>
 
 <body>
     <div class="container">
         <h1>TewDew</h1>
-        <input type="text" placeholder="Enter your Title here">
-        <input type="text" placeholder="Enter your Description">
+        <input type="text" id="title" placeholder="Enter your Title here">
+        <input type="text" id="description" placeholder="Enter your Description">
         <button onclick="onPress()">Submit</button>
+    </div>
+    <div id="todoList">
     </div>
 </body>
 
