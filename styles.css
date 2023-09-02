@@ -10,7 +10,7 @@
     border: 1px solid black;
     box-shadow: 0px 0px 5px black;
     border-radius: 10px;
-    background-color: #ed4a52;
+    background-color: aliceblue;
 }
 
 .container input {
@@ -34,7 +34,18 @@
 }
 
 #todoList {
-    width: 400px;
+    width: 80%;
     margin: 30px auto;
-    text-align: center;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-content: space-between;
+}
+
+.card {
+    width: 300px;
+    border-radius: 10px;
+    margin-top: 30px;
+    box-shadow: 0px 0px 10px black;
+    padding: 20px;
 }

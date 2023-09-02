@@ -49,7 +49,8 @@
             let titleText = todo.title;
             let descriptionText = todo.description;
             let todoItem = document.createElement("div");
-            let todoTitle = document.createElement("p");
+            todoItem.classList.add("card")
+            let todoTitle = document.createElement("h2");
             let todoDescription = document.createElement("p");
             todoTitle.innerText = titleText;
             todoDescription.innerText = descriptionText;
