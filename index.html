@@ -12,6 +12,8 @@
         let title = document.getElementById("title").value;
         let description = document.getElementById("description").value;
         if (title != "" && description != "") {
+            document.getElementById("title").value = ""
+            document.getElementById("description").value = ""
             fetch('http://localhost:3000/todos', {
                 method: "POST",
                 body: JSON.stringify({
@@ -42,6 +44,48 @@
         let todos = await response.json();
         return todos;
     }
+    async function getTodoByID(id) {
+        let url = 'http://localhost:3000/todos/' + id;
+        let response = await fetch(url, {
+            method: "GET"
+        });
+        let todoItem = await response.json();
+        return todoItem;
+    }
+
+    function deleteTodo(id) {
+        let url = 'http://localhost:3000/todos/' + id;
+        fetch(url, {
+            method: "DELETE"
+        }).then(response => {
+            getTodos().then(displayTodos);
+        })
+    }
+
+    function putComplete(id) {
+        let url = 'http://localhost:3000/todos/' + id;
+        let todoDiv = document.getElementById(id);
+        getTodoByID(id).then(todo => {
+            if (!todo.completed) {
+                todo.completed = true;
+            } else {
+                todo.completed = false;
+            }
+            fetch(url, {
+                method: "PUT",
+                body: JSON.stringify({
+                    title: todo.title,
+                    completed: todo.completed,
+                    description: todo.description
+                }),
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            }).then(response => {
+                getTodos().then(displayTodos);
+            })
+        })
+    }
     const displayTodos = todos => {
         let parentElement = document.getElementById("todoList")
         parentElement.innerHTML = ""
@@ -49,13 +93,29 @@
             let titleText = todo.title;
             let descriptionText = todo.description;
             let todoItem = document.createElement("div");
+            todoItem.id = todo.id;
             todoItem.classList.add("card")
             let todoTitle = document.createElement("h2");
             let todoDescription = document.createElement("p");
+            let completeButton = document.createElement("button");
+            if (todo.completed) {
+                completeButton.innerHTML = "Not complete"
+                todoItem.classList.add("complete")
+            } else {
+                completeButton.innerHTML = "Set complete"
+            }
+            completeButton.setAttribute("onclick", "putComplete(" + todo.id + ")");
+            completeButton.classList.add("btn");
+            let deleteButton = document.createElement("button");
+            deleteButton.innerHTML = "Delete"
+            deleteButton.setAttribute("onclick", "deleteTodo(" + todo.id + ")");
+            deleteButton.classList.add("btn");
             todoTitle.innerText = titleText;
             todoDescription.innerText = descriptionText;
             todoItem.append(todoTitle);
             todoItem.append(todoDescription);
+            todoItem.append(completeButton);
+            todoItem.append(deleteButton);
             parentElement.append(todoItem);
         })
     }
@@ -67,7 +127,7 @@
         <h1>TewDew</h1>
         <input type="text" id="title" placeholder="Enter your Title here">
         <input type="text" id="description" placeholder="Enter your Description">
-        <button onclick="onPress()">Submit</button>
+        <button class="btn" onclick="onPress()">Submit</button>
     </div>
     <div id="todoList">
     </div>
