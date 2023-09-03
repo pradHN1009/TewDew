@@ -97,12 +97,14 @@
             todoItem.classList.add("card")
             let todoTitle = document.createElement("h2");
             let todoDescription = document.createElement("p");
+            let btnDiv = document.createElement("div");
+            btnDiv.classList.add("btn-container");
             let completeButton = document.createElement("button");
             if (todo.completed) {
                 completeButton.innerHTML = "Not complete"
                 todoItem.classList.add("complete")
             } else {
-                completeButton.innerHTML = "Set complete"
+                completeButton.innerHTML = "Mark complete"
             }
             completeButton.setAttribute("onclick", "putComplete(" + todo.id + ")");
             completeButton.classList.add("btn");
@@ -112,10 +114,11 @@
             deleteButton.classList.add("btn");
             todoTitle.innerText = titleText;
             todoDescription.innerText = descriptionText;
+            btnDiv.append(completeButton);
+            btnDiv.append(deleteButton);
             todoItem.append(todoTitle);
             todoItem.append(todoDescription);
-            todoItem.append(completeButton);
-            todoItem.append(deleteButton);
+            todoItem.append(btnDiv);
             parentElement.append(todoItem);
         })
     }

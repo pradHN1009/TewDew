@@ -18,6 +18,11 @@
     padding: 10px;
 }
 
+.btn-container {
+    display: flex;
+    justify-content: flex-start;
+}
+
 .btn {
     width: 100px;
     margin: 10px auto;
